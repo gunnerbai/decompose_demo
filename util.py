@@ -109,7 +109,7 @@ def  get_PBOD(point,image,line):
                 break
     if len(jd)!=0:
         return Dis, BF_Pision_list, min(jd)
-    return 0
+    return Dis, BF_Pision_list
 
 
 

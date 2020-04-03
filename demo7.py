@@ -32,6 +32,7 @@ def testli11111(oth,image,ys):
     for n in range(len(oth)) :
         # if oth[n]!=None:
         # print('oth:',oth[n])
+
             cv2.circle(image, (oth[n][0],oth[n][1]), 1 , ys )
     cv2.namedWindow('img', cv2.WINDOW_NORMAL)
     cv2.resizeWindow('img', 1000, 1000)
@@ -873,29 +874,31 @@ def getFork_posion(fork_list,all_bihua_list):
                  q111111 = get_all_lianjie(list1,list2,q111111,i,j)
     return q111111,ceshi_lisgt
 
-def get_strokes_Weight(all_strokes, ):
+def get_strokes_Weight(all_strokes,index ):
     weight_list = []
+    print('122222',index)
+    for i in range(len(all_strokes)):
+        for j in range (len(index)):
+            if i ==index[j]:
+                A_x = 0
+                A_y = 0
+                point_list = np.array(all_strokes[i].points)
+                x_list = point_list[:, 0]
+                y_list = point_list[:, 1]
+                point_max_x = max(x_list)
+                point_max_y = max(y_list)
+                point_min_x = min(x_list)
+                point_min_y = min(y_list)
+                kd = (point_max_x + 1) - point_min_x
+                gd = (point_max_y + 1) - point_min_y
+                for k in range(point_min_x, point_max_x + 1):
+                    A_x += k
 
-    for i in all_strokes:
-        A_x = 0
-        A_y = 0
-        point_list = np.array(i.points)
-        x_list = point_list[:, 0]
-        y_list = point_list[:, 1]
-        point_max_x = max(x_list)
-        point_max_y = max(y_list)
-        point_min_x = min(x_list)
-        point_min_y = min(y_list)
-        kd = (point_max_x + 1) - point_min_x
-        gd = (point_max_y + 1) - point_min_y
-        for i in range(point_min_x, point_max_x + 1):
-            A_x += i
-
-        for j in range(point_min_y, point_max_y + 1):
-            A_y += j
-        A_x = A_x / (kd)
-        A_y = A_y / (gd)
-        weight_list.append([A_x, A_y])
+                for j in range(point_min_y, point_max_y + 1):
+                    A_y += j
+                A_x = A_x / (kd)
+                A_y = A_y / (gd)
+                weight_list.append([int(A_x), int(A_y)])
 
     return weight_list
 
@@ -980,16 +983,36 @@ for i in range(len(q)):
         if q[i,j]==1:
             Dis , bo_p_list ,jd  = util.get_PBOD(fork.get(str(i))[0],gary_img,bihua_ins_lines[j])
             util.show_image(Dis)
-            jd_list.append([jd,j])
+            jd_list.append([jd,j,i])
             # indexes = util.get_peak(Dis)
     qqqqqq.append(jd_list)
 print('11111111111',qqqqqq)
-print('11111111111')
+# print('11111111111')
+w = get_strokes_Weight(all_strokes,[qqqqqq[1][0][1], qqqqqq[1][1][1], qqqqqq[1][2][1]])
+test_image =cv2.imread('images/test2.png')
+# testli11111([w[1],w[2],fork.get('1')[0]],test_image,(255,0,0))
+for i in qqqqqq:
+    print('len(i)',len(i))
+    # if len(i)>2:
+
+
+
+
+# for i in w:
+#     print(i)
+#     testli11111([[int(i[0]),int(i[1])]],test_image,(255,0,0))
 for d  in range(len(qqqqqq)):
+    if len(qqqqqq[d]) > 2:
+       print(1)
     for i in range(len(qqqqqq[d])):
         for j in range(len(qqqqqq[d])):
             if qqqqqq[d][i][0]-qqqqqq[d][j][0]>170  and qqqqqq[d][i][0]-qqqqqq[d][j][0] <190:
                  print('第{}组的  {}   {}  位置'.format(d,qqqqqq[d][i][1],qqqqqq[d][j][1]))
+            # elif len(qqqqqq[d])>2:
+            #     print(123123123123123)
+
+
+
 if len(qqqqqq)==1:
     print(11111)
     print('只有一个fork点 所以他们为一笔')
