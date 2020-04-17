@@ -37,7 +37,6 @@ class Stroke(object):
 
         for p in points:
             blank_image[p[1], p[0]] = 255
-
         return blank_image
 
     def distance(self, pixel_1, pixel_2):
@@ -489,7 +488,7 @@ def generate_final_strokes(image):
 
 
 
-image = cv2.imread('images/test3.png')
+image = cv2.imread('testline/20315.png')
 showImage(image)
 skeleton_image = getSkeleton(image)
 showImage(skeleton_image)
@@ -501,9 +500,9 @@ showImage(before)
 #
 #
 #
-# final_strokes = generate_final_strokes(image)
+final_strokes = generate_final_strokes(image)
 # print(len(final_strokes))
-# # displaying contours after merge
+# displaying contours after merge
 # after = draw_strokes(image, final_strokes, colors)
 # showImage(after)
 

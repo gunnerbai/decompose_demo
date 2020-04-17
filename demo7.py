@@ -905,7 +905,7 @@ def get_strokes_Weight(all_strokes,index ):
 all_p = []
 all_p1 = []
 
-img1 = cv2.imread('images/test2.png', cv2.IMREAD_GRAYSCALE)  # 读取图像
+img1 = cv2.imread('testline/58117.png', cv2.IMREAD_GRAYSCALE)  # 读取图像
 if len(img1.shape) > 2:
     h1, w1, n = img1.shape
     img2 = img1[::, 2]
@@ -981,15 +981,22 @@ for i in range(len(q)):
     jd_list = []
     for j in range(len(q[0])):
         if q[i,j]==1:
-            Dis , bo_p_list ,jd  = util.get_PBOD(fork.get(str(i))[0],gary_img,bihua_ins_lines[j])
-            util.show_image(Dis)
-            jd_list.append([jd,j,i])
+            if len(util.get_PBOD(fork.get(str(i))[0],gary_img,bihua_ins_lines[j]))>2:
+                Dis , bo_p_list ,jd  = util.get_PBOD(fork.get(str(i))[0],gary_img,bihua_ins_lines[j])
+                util.show_image(Dis)
+                jd_list.append([jd,j,i])
+            else:
+                Dis, bo_p_list, = util.get_PBOD(fork.get(str(i))[0], gary_img, bihua_ins_lines[j])
+                util.show_image(Dis)
+                jd_list.append([ j, i])
             # indexes = util.get_peak(Dis)
     qqqqqq.append(jd_list)
 print('11111111111',qqqqqq)
 # print('11111111111')
 w = get_strokes_Weight(all_strokes,[qqqqqq[1][0][1], qqqqqq[1][1][1], qqqqqq[1][2][1]])
-test_image =cv2.imread('images/test2.png')
+print('index:           ',[qqqqqq[1][0][1], qqqqqq[1][1][1], qqqqqq[1][2][1]])
+print('w:               ',w)
+# test_image =cv2.imread('images/test2.png')
 # testli11111([w[1],w[2],fork.get('1')[0]],test_image,(255,0,0))
 for i in qqqqqq:
     print('len(i)',len(i))
@@ -1008,6 +1015,9 @@ for d  in range(len(qqqqqq)):
         for j in range(len(qqqqqq[d])):
             if qqqqqq[d][i][0]-qqqqqq[d][j][0]>170  and qqqqqq[d][i][0]-qqqqqq[d][j][0] <190:
                  print('第{}组的  {}   {}  位置'.format(d,qqqqqq[d][i][1],qqqqqq[d][j][1]))
+                 test_image = cv2.imread('testline/58117.png')
+                 testli11111(all_strokes[qqqqqq[d][i][1]].points,test_image,(255,0,0))
+                 testli11111(all_strokes[qqqqqq[d][j][1]].points,test_image,(255,0,0))
             # elif len(qqqqqq[d])>2:
             #     print(123123123123123)
 

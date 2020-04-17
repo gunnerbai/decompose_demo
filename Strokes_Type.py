@@ -8,9 +8,24 @@ class Strokes_type(object):
 
     def __init__(self,points,fork_list):
             self.points     =   points
-            self.fork_list  =   fork_list
-    # def find_all_type(self):
-    #     return True
+            # self.fork_list  =   fork_list
+    def find_all_type(self,point_list,fork_list):
+        name_list = []
+        if len(point_list)==2 and len(fork_list)==1:
+            if self.rule_across():
+                name_list.append('rule_across')
+            elif self.rule_vertical():
+                name_list.append('rule_vertical')
+            elif self.rule_neglect():
+                name_list.append('rule_neglect')
+            elif self.rule_restrain():
+                name_list.append('rule_restrain')
+            elif self.rule_lift():
+                name_list.append('rule_lift')
+        if len(name_list)==1:
+            return True
+        else:
+            return False
     # 点  只有一个点没有交集的单独笔画
     def rule_point(self):
         return 1
